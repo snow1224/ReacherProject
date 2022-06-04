@@ -70,7 +70,8 @@ RL的任務基本是低維度輸入、低維度輸出，這是因為高維的問
 
 那我們該怎麼建立DQN，讓模型可以輸出Q值，又能輸出與最大Ｑ值對應的Aciton，達到在機械手臂的連續控制的目的呢？圖1為我們針對這個問題所提出的DQN架構。
 ![dqn_result](dqn_arch.png)
-<center>圖1-DQN架構示意圖</center>
+|:------:|
+|圖1-DQN架構示意圖|
 
 一般的DQN在128 relu的隱藏層後，就直接輸出Q，然後找與最大Q對應的action。但我們為了連續控制，我們引入了Advantage概念，也就是判斷每個動作在特定狀況下的優劣，而輸出action也其實就是Advantage最大的動作。關係式如下:
 
@@ -81,5 +82,6 @@ $Q(s,q)=A(s,a)+V(s)$
 $A(x,u|\theta^A)=-\dfrac{1}{2}(u-u(x|\theta^u))^TP(x|\theta^P)(u-u(x|\theta^u))$
 
 整體的演算法的流程如下所示：
- ![dqn_algorithm](dqn_algorithm.png)
+
+![dqn_algorithm](dqn_algorithm.png)
  
