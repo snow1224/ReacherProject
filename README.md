@@ -45,7 +45,7 @@ conda install pytorch=0.4.1 cuda92 -c pytorch
 
 ## DDPG
 
-1. Hyperparameter settings can be tweaked  in `parameters.py`.
+1. H參數設定可以在`parameters.py`調整
 
 2. Train the agent by running `train_agent.py` 
 
@@ -58,11 +58,23 @@ python train_agent.py
 ### DDPG介紹
 
 ## DQN
-1. Hyperparameter settings can be tweaked  in `train_agent_dqn.py`.
-
-### DQN介紹
-*	DQN architecture settings can be tweaked in dqn_agent1.py.
+1. 參數設定可以在 `train_agent_dqn.py` 調整
 *	Max_EPISODES = 300, score>=30
 *	Result 
+
 ![dqn_result](outputs/dqn_result.png)
 ![dqn_score](outputs/dqn_score.png)
+
+### DQN介紹
+RL的任務基本是低維度輸入、低維度輸出，這是因為高維的問題難度實在太大了，很難收斂。因此，有人提出了DQN這個專門處理離散Action演算法，使得輸入維度可以擴展到高維空間。
+
+那我們該怎麼建立DQN，讓模型可以輸出Q值，又能輸出與最大Ｑ值對應的Aciton，達到在機械手臂的連續控制的目的呢？圖1為我們針對這個問題所提出的DQN架構。
+![dqn_result](dqn_arch.png)
+圖1-DQN架構示意圖
+
+一般的DQN在128 relu的隱藏層後，就直接輸出Q，然後找與最大Q對應的action。但我們為了連續控制，我們引入了Advantage概念，也就是判斷每個動作在特定狀況下的優劣，而輸出action也其實就是Advantage最大的動作。關係式如下:
+ $Q(s,q)=A(s,a)+V(s)$
+那我們該如何建立符合我們場域的A的矩陣呢，我們可以利用這個關係式完成：
+ 
+整體的演算法的流程如下所示：
+ 
