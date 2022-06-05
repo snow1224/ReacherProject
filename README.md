@@ -69,7 +69,7 @@ python train_agent.py
 
 * result
 
-![ddpg_result](outputs/ddpg_result.png)
+![ddpg_result](outputs/ddpg_result.jpg)
 
 ### DDPG介紹
 * 背景
