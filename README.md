@@ -85,6 +85,7 @@ Deepmind在2016年提出DDPG，全稱是：Deep Deterministic Policy Gradient,�
 ![ddpg_flowchart](ddpg_flowchart.png)
 |:------:|
 |圖1-ddpg架構示意圖|
+
 上述這個策略叫做behavior策略，用β \betaβ來表示, 這時RL的訓練方式叫做==off-policy==.
 這裡與$\epsilon-greedy$的思路是類似的。
 DDPG中，使用Uhlenbeck-Ornstein隨機過程（下面簡稱UO過程），作為引入的隨機噪聲：
