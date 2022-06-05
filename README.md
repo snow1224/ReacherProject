@@ -68,6 +68,7 @@ python train_agent.py
 3.如果想監看使用`train_agent.py`指令的 trained agent， 我們預設將weights和 trained agent儲存在`output\`中。
 
 * result
+
 ![ddpg_result](outputs/ddpg_result.png)
 
 ### DDPG介紹
