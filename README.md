@@ -16,7 +16,7 @@ To run the code, you need a Python 3.6 environment with required dependencies in
 
 ```
 conda create --name reacherproject python=3.6
-source activate reacherproject
+conda activate reacherproject
 ```
 
 2. 複製github repository和安裝requirements
@@ -43,7 +43,7 @@ conda install pytorch=0.4.1 cuda92 -c pytorch
 
 ## DDPG
 
-1. H參數設定可以在`parameters.py`調整
+1. 參數設定可以在`parameters.py`調整
 
 2. 使用 `train_agent.py` 訓練
 
