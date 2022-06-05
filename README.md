@@ -1,5 +1,19 @@
 # DRL final project
 
+## 背景(Background)
+RL要解決的問題是：讓agent學習在一個環境中的如何行為動作(act)， 從而獲得最大的獎勵值總和(total reward)。
+這個獎勵值一般與agent定義的任務目標關聯。
+agent需要的主要學習內容：第一是行為策略(action policy)， 第二是規劃(planning)。
+其中，行為策略的學習目標是最優策略， 也就是使用這樣的策略，
+可以讓agent在特定環境中的行為獲得最大的獎勵值，從而實現其任務目標。
+
+* 行為(action)可以簡單分為：
+  * 連續的：如賽車遊戲中的方向盤角度、油門、剎車控制信號，機器人的關節伺服電機控制信號。
+  * 離散的：如圍棋、貪吃蛇遊戲。Alpha Go就是一個典型的離散行為agent。
+DDPG是針對==連續行為==的策略學習方法。
+DQN是針對==離散行為==的學習方法
+
+
 ## 介紹(Introduction)
 * 我們使用unity環境，實現機器2個關節手臂接觸移動物體。
 * 代理的手在目標位置的每一步都會提供 +0.1 的獎勵。
@@ -29,13 +43,13 @@ conda install pytorch=0.4.1 cuda92 -c pytorch
 ```
 3. 下載unity環境，選擇對應的OS版本
 
-- **_Version 1: One (1) Agent_**
+- **_Version 1: One (1) Agent_**`訓練`
   - Linux: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/one_agent/Reacher_Linux.zip)
   - Mac OSX: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/one_agent/Reacher.app.zip)
   - Windows (32-bit): [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/one_agent/Reacher_Windows_x86.zip)
   - Windows (64-bit): [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/one_agent/Reacher_Windows_x86_64.zip)
 
-- **_Version 2: Twenty (20) Agents_**
+- **_Version 2: Twenty (20) Agents_**`推薦`
   - Linux: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/Reacher_Linux.zip)
   - Mac OSX: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/Reacher.app.zip)
   - Windows (32-bit): [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/Reacher_Windows_x86.zip)
@@ -51,9 +65,30 @@ conda install pytorch=0.4.1 cuda92 -c pytorch
 python train_agent.py
 ```
 
-3. if you want to watch trained agent, follow the instructions in  `train_agent.py`. Saved weights for trained agent can be found in the `output\` folder.
+3.如果想監看使用`train_agent.py`指令的 trained agent， 我們預設將weights和 trained agent儲存在`output\`中。
+
+* result
+![ddpg_result](outputs/ddpg_result.png)
 
 ### DDPG介紹
+* 背景
+Deepmind在2016年提出DDPG，全稱是：Deep Deterministic Policy Gradient,是將深度學習神經網絡融合進DPG的策略學習方法。
+相對於DPG的核心改進是： 採用卷積神經網絡作為策略函數$\mu$和$Q$函數的模擬，即策略網路和Q網路，然後使用深度學習的方法來訓練
+
+* 概念定義：
+  * 確定性行為策略$\mu$: 定義為一個函數，每一步的行為可以通過$a_{t} = \mu(s_{t}) $ 計算獲得。
+  * 策略網絡：用一個卷積神經網絡對$\mu$函數進行模擬，這個網絡我們就叫做策略網絡，其參數為$\theta^{\mu}$
+  * behavior policy $\beta $: 在RL訓練過程中，我們要兼顧2個$e$: exploration和exploit
+    * exploration的目的是探索潛在的更優策略，所以訓練過程中，我們為action的決策機制引入隨機噪聲：
+    * 將action的決策從確定性過程變為一個隨機過程， 再從這個隨機過程中採樣得到action，下達給環境執行
+    ![ddpg_flowchart](ddpg_flowchart.png)
+    |:------:|
+    |圖1-ddpg架構示意圖|
+上述這個策略叫做behavior策略，用β \betaβ來表示, 這時RL的訓練方式叫做==off-policy==.
+這裡與$\epsilon-greedy$的思路是類似的。
+DDPG中，使用Uhlenbeck-Ornstein隨機過程（下面簡稱UO過程），作為引入的隨機噪聲：
+UO過程在時序上具備很好的相關性，可以使agent很好的探索具備動量屬性的環境。
+
 
 ## DQN
 ### 設定與執行程式
@@ -77,7 +112,7 @@ RL的任務基本是低維度輸入、低維度輸出，這是因為高維的問
 那我們該怎麼建立DQN，讓模型可以輸出Q值，又能輸出與最大Ｑ值對應的Aciton，達到在機械手臂的連續控制的目的呢？圖1為我們針對這個問題所提出的DQN架構。
 ![dqn_result](dqn_arch.png)
 |:------:|
-|圖1-DQN架構示意圖|
+|圖3-DQN架構示意圖|
 
 一般的DQN在128 relu的隱藏層後，就直接輸出Q，然後找與最大Q對應的action。但我們為了連續控制，我們引入了Advantage概念，也就是判斷每個動作在特定狀況下的優劣，而輸出action也其實就是Advantage最大的動作。關係式如下:
 
@@ -96,6 +131,4 @@ $A(x,u|\theta^A)=-\dfrac{1}{2}(u-u(x|\theta^u))^TP(x|\theta^P)(u-u(x|\theta^u))$
 * [DQN从入门到放弃7 连续控制DQN算法-NAF](https://zhuanlan.zhihu.com/p/21609472)
 * [Deep Cue Learning: A Reinforcement Learning Agent for Pool](https://github.com/pyliaorachel/CS229-pool)
 * [pytorch-madrl](https://github.com/ChenglongChen/pytorch-DRL)
-
-
-
+* [ddpg原理和算法](https://blog.csdn.net/kenneth_yu/article/details/78478356)
