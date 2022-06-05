@@ -1,12 +1,11 @@
 # DRL final project
 
 ## 介紹(Introduction)
-我們使用unity環境，實現機器手臂移動物體的任務。
-In a [Unity ML](https://github.com/Unity-Technologies/ml-agents) environment, we train a double-jointed arm `agent` to reach moving objects.  A reward of `+0.1` is provided for each step that the agent's hand is in the goal location.  The goal is to maintain its position at  the target location for as many time steps as possible. The task is episodic and the environment is considered solved when the agent manages to score `+30` on average over `100` consecutive episodes.
-
-The observation space consists of `33` variables  corresponding to position, rotation, velocity, and angular velocities of the arm.  Each `action` is a vector with four numbers, corresponding to  torque applicable to two joints.  Every entry in the action vector must  be a number between `-1` and `1`.
-
-We train the agent using [Deep Deterministic Policy Gradient](https://arxiv.org/abs/1509.02971) algorithm and the training process is documented [here](.\Report.md). This is how the trained agent looks like:
+* 我們使用unity環境，實現機器2個關節手臂接觸移動物體。
+* 代理的手在目標位置的每一步都會提供 +0.1 的獎勵。
+* 目標: 在盡可能多的時間步長內保持其在目標位置的位置。
+* 當代理在 100 個連續episodes中平均得分 +30 時，環境被認為已解決。
+* 觀察空間由 33 個變量組成，對應於手臂的位置、旋轉、速度和角速度。每個“動作”是一個有4個數字的向量，對應於適用於2個關節的扭矩。動作向量中的每個條目都必須是 `-1` 和 `1` 之間的數字。
 
 ![trained_agent](outputs/agent_after.gif)
 
@@ -19,7 +18,6 @@ To run the code, you need a Python 3.6 environment with required dependencies in
 conda create --name reacherproject python=3.6
 source activate reacherproject
 ```
-
 
 2. 複製github repository和安裝requirements
 
@@ -47,7 +45,7 @@ conda install pytorch=0.4.1 cuda92 -c pytorch
 
 1. H參數設定可以在`parameters.py`調整
 
-2. Train the agent by running `train_agent.py` 
+2. 使用 `train_agent.py` 訓練
 
 ```
 python train_agent.py
@@ -58,7 +56,15 @@ python train_agent.py
 ### DDPG介紹
 
 ## DQN
+### 設定與執行程式
 1. 參數設定可以在 `train_agent_dqn.py` 調整
+
+2. 使用 `train_agent_dqn.py` 訓練 
+
+```
+python train_agent_dqn.py
+```
+
 *	Max_EPISODES = 300, score>=30
 *	Result 
 
@@ -85,3 +91,11 @@ $A(x,u|\theta^A)=-\dfrac{1}{2}(u-u(x|\theta^u))^TP(x|\theta^P)(u-u(x|\theta^u))$
 
 ![dqn_algorithm](dqn_algorithm.png)
  
+## 參考資料
+* [Deep Deterministic Policy Gradient](https://arxiv.org/abs/1509.02971)
+* [DQN从入门到放弃7 连续控制DQN算法-NAF](https://zhuanlan.zhihu.com/p/21609472)
+* [Deep Cue Learning: A Reinforcement Learning Agent for Pool](https://github.com/pyliaorachel/CS229-pool)
+* [pytorch-madrl](https://github.com/ChenglongChen/pytorch-DRL)
+
+
+
