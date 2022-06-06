@@ -94,7 +94,7 @@ UO過程在時序上具備很好的相關性，可以使agent很好的探索具�
 
 整體的演算法的流程如下所示：
 
-![ddpg_algorithm](ddpg_algorithm.png)
+![ddpg_algorithm](ddpg_algorithm.PNG)
  
 ## DQN
 ### 設定與執行程式
